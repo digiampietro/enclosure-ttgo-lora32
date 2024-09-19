@@ -160,7 +160,7 @@ cutoutsLeft =
 [
     [50.10, -4.00, 8.55, 4.00, 2.0, yappRectangle, yappCoordPCB, yappOrigin ], // switch
     [47.10, -7.00,14.55,10.50, 2.0, yappRectangle, 2.0, yappCoordPCB, yappOrigin ], // switch
-    [40.33, -2.50, 4.90, 2.50, 2.0, yappRectangle, yappCoordPCB, yappOrigin ], // reset    
+    [40.33, -2.50, 4.90, 3.25, 2.0, yappRectangle, yappCoordPCB, yappOrigin ], // reset    
 ];
 
 cutoutsFront =
@@ -170,10 +170,19 @@ cutoutsFront =
     
 ];
 
+lth = standoffHeight+pcbThickness;
+
+lightTubes =
+[
+      [47.50, 1.60, 3.00, 3.00, 0.75, 1.5, yappCircle,    0, lth, 1.5, yappCoordPCB ], // LED bottom
+      [58.50,26.40, 2.00, 6.00, 0.75, 3.4, yappRectangle, 0, lth, 1.5, yappCoordPCB ],  // LED top
+  
+];
+
 cutoutsLid =
 [
-    [46.00, 0.10, 0.00, 0.00,     1.8, yappCircle,      yappCoordPCB, yappOrigin ], // LED bottom
-    [55.50,25.40, 6.00, 2.00,     0.5, yappRoundedRect, yappCoordPCB, yappOrigin ], // LED top
+//    [46.00, 0.10, 0.00, 0.00,     1.5, yappCircle,      yappCoordPCB, yappOrigin ], // LED bottom
+//    [55.50,25.40, 6.00, 2.00,     0.5, yappRoundedRect, yappCoordPCB, yappOrigin ], // LED top
     [14.50, 8.50,24.50,14.70+1.0, 0.5, yappRectangle,   yappCoordPCB, yappOrigin ], // Display
     
     
