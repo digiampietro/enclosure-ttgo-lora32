@@ -14,12 +14,13 @@ include <../YAPP_Box/YAPPgenerator_v3.scad>
 //showOrientation = false;
 
 // version, incremented by 1 for each print of modified model
- prVersion = "12";
+ prVersion = "13";
 
 //--- PCB dimensions
 pcbLength     = 64.47;
 pcbWidth      = 27.00;
 pcbThickness  =  1.10;
+coverThickness=  1.5;
 
 // Lid an Base dimensions
 lidWallHeight  = 11.00;   // was  6.30 - 13.00 - 10 - 9 - 8.50 - 9
@@ -59,18 +60,18 @@ snapJoins   =
 ]; 
 
  
- module holder3d() {
-     translate([0, 0, -1])
-     rotate([-90, 0, 0])
-     difference() {
-        cylinder(4, 1.5, 1.5);
-        translate([-4, -2, -0.5]) cube([4, 4, 6]);
-     }
- }
+// module holder3d() {
+//     translate([0, 0, -1])
+//     rotate([-90, 0, 0])
+//     difference() {
+//        cylinder(4, 1.5, 1.5);
+//        translate([-4, -2, -0.5]) cube([4, 4, 6]);
+//     }
+// }
 
 module antennaHolder() {
     ahW =  1.5;        // Width
-    ahH =  9.0 - 1.0;  // Height
+    ahH = 10.3;  // Height was 8.0
     ahL =  6.0;        // Length
     ahX = wallThickness + 52.45 + 0.2 + ahW;
     ahY = wallThickness + 18.85 - 0.2 + 1.8;
@@ -89,70 +90,72 @@ module antennaHolder() {
 module printVersion() {
     font      = "Liberation Sans";
     fontSize  = 10;
-    textH     =  0.5;
-    textX     = 15;
-    textY     = 15;
-    translate([textX, textY, basePlaneThickness - textH])
-    linear_extrude(textH)
-    text(text = prVersion, font = font, size = fontSize);
+    textH     =  0.25;
+    textX     = [15, 47,  20]; // Base, Lid, Battery Cover
+    textY     = [15, 72, -30];
+    textZ     = [basePlaneThickness - textH, lidPlaneThickness - textH, coverThickness - textH];
+    for (ipv = [0 : 2])
+      translate([textX[ipv], textY[ipv], textZ[ipv]])
+      linear_extrude(textH+0.1)
+      text(text = prVersion, font = font, size = fontSize);
 }
 
-module battery() {
-    
-    // Back wall
-    backBatteryX = 6.1;                 //x position
-    backBatteryY = wallThickness;       //y position
-    backBatteryZ = basePlaneThickness;  //z posizion
-    backBatteryW = 1.5;                 // width
-    backBatteryL = shellWidth-(wallThickness*2); // length
-    backBatteryH = 11.2;                // height
-    
-    // Front wall
-    frontBatteryX = backBatteryX + backBatteryW + 41;
-    frontBatteryY = wallThickness;
-    frontBatteryZ = basePlaneThickness;
-    frontBatteryW = 1.5;
-    frontBatteryL = shellWidth-(wallThickness*2);
-    frontBatteryH = 5;
-    
-    // Back holders
-    backHolderY1 = backBatteryY +  4;
-    backHolderY2 = backBatteryY + 22;
-    backHolderX  = backBatteryX + backBatteryW;
-    backHolderZ  = backBatteryH + basePlaneThickness;
-    
-    // Left holders
-    leftHolderX  = backBatteryX + 23;
-    leftHolderX2 = backBatteryX +  9;
-    leftHolderY  = backBatteryY;
-    leftHolderZ  = backHolderZ;
-    
-    // Right holders
-    rightHolderX  = backBatteryX + 19;
-    rightHolderX2 = backBatteryX +  5;
-    rightHolderY  = backBatteryY + backBatteryL;
-    rightHolderZ  = backHolderZ;
-    
-    // Draw back wall
-    translate([backBatteryX, backBatteryY, backBatteryZ])
-    cube([backBatteryW, backBatteryL, backBatteryH]);
-
-    // Draw front wall
-    translate([frontBatteryX, frontBatteryY, frontBatteryZ])
-    cube([frontBatteryW, frontBatteryL, frontBatteryH]);
-    
-    // Draw back holders
-    translate([backHolderX, backHolderY1, backHolderZ]) holder3d();
-    translate([backHolderX, backHolderY2, backHolderZ]) holder3d();
-
-    // Draw left holders
-    translate([leftHolderX,  leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
-    translate([leftHolderX2, leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
-    
-    // Draw right holders
-    translate([rightHolderX, rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
-    translate([rightHolderX2,rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
-}
+//module battery() {
+//    
+//    // Back wall
+//    backBatteryX = 6.1;                 //x position
+//    backBatteryY = wallThickness;       //y position
+//    backBatteryZ = basePlaneThickness;  //z posizion
+//    backBatteryW = 1.5;                 // width
+//    backBatteryL = shellWidth-(wallThickness*2); // length
+//    backBatteryH = 11.2;                // height was 11.2
+//    
+//    // Front wall
+//    frontBatteryX = backBatteryX + backBatteryW + 41;
+//    frontBatteryY = wallThickness;
+//    frontBatteryZ = basePlaneThickness;
+//    frontBatteryW = 1.5;
+//    frontBatteryL = shellWidth-(wallThickness*2);
+//    frontBatteryH = 5;
+//    
+//    // Back holders
+//    backHolderY1 = backBatteryY +  4;
+//    backHolderY2 = backBatteryY + 22;
+//    backHolderX  = backBatteryX + backBatteryW;
+//    backHolderZ  = backBatteryH + basePlaneThickness;
+//    
+//    // Left holders
+//    leftHolderX  = backBatteryX + 23;
+//    leftHolderX2 = backBatteryX +  9;
+//    leftHolderY  = backBatteryY;
+//    leftHolderZ  = backHolderZ;
+//    
+//    // Right holders
+//    rightHolderX  = backBatteryX + 19;
+//    rightHolderX2 = backBatteryX +  5;
+//    rightHolderY  = backBatteryY + backBatteryL;
+//    rightHolderZ  = backHolderZ;
+//    
+//    // Draw back wall
+//    translate([backBatteryX, backBatteryY, backBatteryZ])
+//    cube([backBatteryW, backBatteryL, backBatteryH]);
+//
+//    // Draw front wall
+//    translate([frontBatteryX, frontBatteryY, frontBatteryZ])
+//    cube([frontBatteryW, frontBatteryL, frontBatteryH]);
+//    
+//    // Draw back holders
+//    translate([backHolderX, backHolderY1, backHolderZ]) holder3d();
+//    translate([backHolderX, backHolderY2, backHolderZ]) holder3d();
+//
+//    // Draw left holders
+//    translate([leftHolderX,  leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
+//    translate([leftHolderX2, leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
+//    
+//    // Draw right holders
+//    translate([rightHolderX, rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
+//    translate([rightHolderX2,rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
+//}
 
 
 module batteryCover() {
@@ -163,15 +166,15 @@ module batteryCover() {
     backBatteryZ = basePlaneThickness;  //z posizion
     backBatteryW = 2.0;                 // width
     backBatteryL = shellWidth-(wallThickness*2); // length
-    backBatteryH = 9.5;                // height
+    backBatteryH = 10.3;                // height was 9.5
     
     // Front wall
     frontBatteryX = backBatteryX + backBatteryW + 41;
-    frontBatteryY = wallThickness;
-    frontBatteryZ = basePlaneThickness;
-    frontBatteryW = 2.0;
-    frontBatteryL = shellWidth-(wallThickness*2);
-    frontBatteryH = 9.5;
+    frontBatteryY = backBatteryY;
+    frontBatteryZ = backBatteryZ;
+    frontBatteryW = backBatteryW;
+    frontBatteryL = backBatteryL;
+    frontBatteryH = backBatteryH;
     
     // Back holders
     backHolderY1 = backBatteryY +  4;
@@ -356,6 +359,9 @@ difference() {
     cutPins();
     printVersion();
 }
-batteryCover();
+difference() {
+    batteryCover();
+    printVersion();
+}
 antennaHolder();
 //printVersion();
