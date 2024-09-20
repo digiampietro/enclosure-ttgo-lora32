@@ -83,6 +83,7 @@ module antennaHolder() {
     
 }
 
+
 module battery() {
     
     // Back wall
@@ -144,10 +145,10 @@ module battery() {
 module batteryCover() {
     
     // Back wall
-    backBatteryX = 6.1;                 //x position
+    backBatteryX = 5.6;                 //x position
     backBatteryY = wallThickness;       //y position
     backBatteryZ = basePlaneThickness;  //z posizion
-    backBatteryW = 1.5;                 // width
+    backBatteryW = 2.0;                 // width
     backBatteryL = shellWidth-(wallThickness*2); // length
     backBatteryH = 9.5;                // height
     
@@ -155,7 +156,7 @@ module batteryCover() {
     frontBatteryX = backBatteryX + backBatteryW + 41;
     frontBatteryY = wallThickness;
     frontBatteryZ = basePlaneThickness;
-    frontBatteryW = 1.5;
+    frontBatteryW = 2.0;
     frontBatteryL = shellWidth-(wallThickness*2);
     frontBatteryH = 9.5;
     
@@ -177,70 +178,86 @@ module batteryCover() {
     rightHolderY  = backBatteryY + backBatteryL;
     rightHolderZ  = backHolderZ;
     
+    // Battery Conver
+    bcThick     = 1.5;     // Battery Cover Thickness
+    bcTolerance = 0.3;     // Battery Cover Tolerance
+
+    // Tooth (to join Battery Cover with Battery compartment)
+    toothW = backBatteryW * 2;   // tooth Width 
+    toothD = backBatteryW - 0.5; // tooth Depth
+    toothH = backBatteryW + 2;   // tooth Height
+   
     // Draw back wall
     translate([backBatteryX, backBatteryY, backBatteryZ])
     difference(){
         cube([backBatteryW,   backBatteryL, backBatteryH]);
 
-        translate([0.4, backBatteryL/4, backBatteryH-backBatteryW-1.5])
-        cube([backBatteryW+1, backBatteryW, backBatteryW+2]);
+        translate([backBatteryW - toothD, backBatteryL/4, backBatteryH-toothH])
+        cube([toothD+1, toothW, toothH+1]);
 
-        translate([0.4, backBatteryL-backBatteryL/3, backBatteryH-backBatteryW-1.5])
-        cube([backBatteryW+1, backBatteryW, backBatteryW+2]);
+        translate([backBatteryW - toothD, backBatteryL-backBatteryL/2.5, backBatteryH-toothH])
+        cube([toothD+1, toothW, toothH+1]);
     }
 
     // Draw front wall
+    color("red")
     translate([frontBatteryX, frontBatteryY+5, frontBatteryZ])
     difference() {
-        cube([frontBatteryW, frontBatteryL - 11.0, frontBatteryH]);
+        cube([frontBatteryW, frontBatteryL - 15.7, frontBatteryH]);
 
-        translate([-1.4, (frontBatteryL - 11)/8, frontBatteryH-frontBatteryW - 1.5])
-        cube([frontBatteryW+1, frontBatteryW, frontBatteryW+2]);
+        // -1.4 _?
+        translate([-1, (frontBatteryL - 11)/8,  frontBatteryH - toothH])
+        cube([toothD+1, toothW, toothH+1]);
 
-        translate([-1.4, frontBatteryL - frontBatteryL/1.6, frontBatteryH-frontBatteryW-1.5])
-        cube([frontBatteryW+1, frontBatteryW, frontBatteryW+2]);
+        translate([-1, frontBatteryL - frontBatteryL/1.4, frontBatteryH-toothH])
+        cube([toothD+1, toothW, toothH+1]);
     }
     
     //----- Draw battery cover
     color("blue")
     rotate([180, 0,0])
-    translate([0,8,-basePlaneThickness-backBatteryH-backBatteryW])
+    translate([0,8,-basePlaneThickness-backBatteryH-backBatteryW+0.5])
     union(){
     
         // Draw Back tooths
-        translate([backBatteryX, backBatteryY, backBatteryZ+0.2])
+        translate([backBatteryX, backBatteryY, backBatteryZ+bcTolerance])
         union() {
-            translate([0.6, backBatteryL/4+0.1, backBatteryH-backBatteryW-1.5])
-            cube([backBatteryW - 0.5, backBatteryW-0.2, backBatteryW+1.3]);
+            // 0.6 = 0.4 (reduced wall) + bcTolerance
+            translate([frontBatteryW-toothD+bcTolerance, backBatteryL/4+bcTolerance/2, backBatteryH-toothH])
+            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
     
-            translate([0.6, backBatteryL-backBatteryL/3+0.1, backBatteryH-backBatteryW-1.5])
-            cube([backBatteryW - 0.5, backBatteryW-0.2, backBatteryW+1.3]);
+            translate([frontBatteryW-toothD+bcTolerance, backBatteryL-backBatteryL/2.5+bcTolerance/2, backBatteryH-toothH])
+            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
         }
     
        //--- Draw Front tooths
-        translate([frontBatteryX-0.6, frontBatteryY+5, frontBatteryZ+0.2])
+        translate([frontBatteryX, frontBatteryY+5, frontBatteryZ])
         union(){
-            translate([0.6, (frontBatteryL-11)/8+0.1, frontBatteryH-frontBatteryW-1.5])
-            cube([frontBatteryW - 0.5, frontBatteryW-0.2, frontBatteryW+1.3]);
+            translate([0, (frontBatteryL-11)/8+0.1, frontBatteryH-toothH+bcTolerance])
+            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
     
-            translate([0.6, frontBatteryL-frontBatteryL/1.6+0.1, frontBatteryH-frontBatteryW-1.5])
-            cube([frontBatteryW - 0.5, frontBatteryW-0.2, frontBatteryW+1.3]);
-    
+            translate([0, frontBatteryL - frontBatteryL/1.4, frontBatteryH-toothH+bcTolerance])
+            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
         }
         
         
         //--- Draw Cover
-        translate([backBatteryX+0.2, backBatteryY+0.2, backBatteryH+backBatteryZ])
+        translate([backBatteryX+bcTolerance, backBatteryY+bcTolerance, backBatteryH+backBatteryZ])
         difference() {
-            cube([frontBatteryX - backBatteryX + backBatteryW -0.4, frontBatteryL - 0.4 , 1.5]);
+            cube([frontBatteryX - backBatteryX + backBatteryW - bcTolerance*2, frontBatteryL-bcTolerance*2, 1.5]);
     
             translate([0,3.3,-2]) linear_extrude(10)
-            circle(standoffDiameter/2+0.3);
+            circle(standoffDiameter/2+bcTolerance*3);
     
             translate([0,25.3,-2]) linear_extrude(10)
-            circle(standoffDiameter/2+0.3);
-        }
+            circle(standoffDiameter/2+bcTolerance*3);
+            
+            translate([frontBatteryX-7/1.7, frontBatteryY+frontBatteryL-9,-2]) linear_extrude(10)
+            rotate([0,0,22])
+            square(9);
+
     }
+}
         
     
 //    // Draw back holders
