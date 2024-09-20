@@ -13,13 +13,16 @@ include <../YAPP_Box/YAPPgenerator_v3.scad>
 //inspectZ = 9;
 //showOrientation = false;
 
+// version, incremented by 1 for each print of modified model
+ prVersion = "12";
+
 //--- PCB dimensions
 pcbLength     = 64.47;
 pcbWidth      = 27.00;
 pcbThickness  =  1.10;
 
 // Lid an Base dimensions
-lidWallHeight  =  9.00;   // was  6.30 - 13.00 - 10 - 9 - 8.50
+lidWallHeight  = 11.00;   // was  6.30 - 13.00 - 10 - 9 - 8.50 - 9
 baseWallHeight = 11.30;   // was 18.00
 
 //-- padding between pcb and inside wall
@@ -35,7 +38,7 @@ lidPlaneThickness   = 2.0;
 
 //-- ridge where base and lid off box can overlap
 //-- Make sure this isn't less than lidWallHeight
-ridgeHeight         = 5.0;
+ridgeHeight         = 4.5;  // was 5.0
 ridgeSlack          = 0.3;
 
 //-- the radius of all outside edges and corners
@@ -43,7 +46,7 @@ roundRadius         = 3.0;
 
 //-- How much the PCB needs to be raised from the base
 //-- to leave room for solderings and whatnot
-standoffHeight      = 15.00;
+standoffHeight      = 17.00;
 standoffDiameter    =  3.2;
 standoffPinDiameter =  1.8;
 standoffHoleSlack   =  0.2;
@@ -83,6 +86,16 @@ module antennaHolder() {
     
 }
 
+module printVersion() {
+    font      = "Liberation Sans";
+    fontSize  = 10;
+    textH     =  0.5;
+    textX     = 15;
+    textY     = 15;
+    translate([textX, textY, basePlaneThickness - textH])
+    linear_extrude(textH)
+    text(text = prVersion, font = font, size = fontSize);
+}
 
 module battery() {
     
@@ -223,21 +236,21 @@ module batteryCover() {
         translate([backBatteryX, backBatteryY, backBatteryZ+bcTolerance])
         union() {
             // 0.6 = 0.4 (reduced wall) + bcTolerance
-            translate([frontBatteryW-toothD+bcTolerance, backBatteryL/4+bcTolerance/2, backBatteryH-toothH])
-            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
+            translate([frontBatteryW-toothD+bcTolerance*1.5, backBatteryL/4+bcTolerance/2, backBatteryH-toothH])
+            cube([toothD-bcTolerance, toothW-bcTolerance*1.5, toothH-bcTolerance]);
     
-            translate([frontBatteryW-toothD+bcTolerance, backBatteryL-backBatteryL/2.5+bcTolerance/2, backBatteryH-toothH])
-            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
+            translate([frontBatteryW-toothD+bcTolerance*1.5, backBatteryL-backBatteryL/2.5+bcTolerance/2, backBatteryH-toothH])
+            cube([toothD-bcTolerance*1.5, toothW-bcTolerance, toothH-bcTolerance]);
         }
     
        //--- Draw Front tooths
         translate([frontBatteryX, frontBatteryY+5, frontBatteryZ])
         union(){
             translate([0, (frontBatteryL-11)/8+0.1, frontBatteryH-toothH+bcTolerance])
-            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
+            cube([toothD-bcTolerance*1.5, toothW-bcTolerance, toothH-bcTolerance]);
     
             translate([0, frontBatteryL - frontBatteryL/1.4, frontBatteryH-toothH+bcTolerance])
-            cube([toothD-bcTolerance, toothW-bcTolerance, toothH-bcTolerance]);
+            cube([toothD-bcTolerance*1.5, toothW-bcTolerance, toothH-bcTolerance]);
         }
         
         
@@ -341,6 +354,8 @@ cutoutsBack =
 difference() {
     YAPPgenerate();
     cutPins();
+    printVersion();
 }
 batteryCover();
 antennaHolder();
+//printVersion();
