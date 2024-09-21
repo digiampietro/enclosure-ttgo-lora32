@@ -100,64 +100,6 @@ module printVersion() {
       text(text = prVersion, font = font, size = fontSize);
 }
 
-//module battery() {
-//    
-//    // Back wall
-//    backBatteryX = 6.1;                 //x position
-//    backBatteryY = wallThickness;       //y position
-//    backBatteryZ = basePlaneThickness;  //z posizion
-//    backBatteryW = 1.5;                 // width
-//    backBatteryL = shellWidth-(wallThickness*2); // length
-//    backBatteryH = 11.2;                // height was 11.2
-//    
-//    // Front wall
-//    frontBatteryX = backBatteryX + backBatteryW + 41;
-//    frontBatteryY = wallThickness;
-//    frontBatteryZ = basePlaneThickness;
-//    frontBatteryW = 1.5;
-//    frontBatteryL = shellWidth-(wallThickness*2);
-//    frontBatteryH = 5;
-//    
-//    // Back holders
-//    backHolderY1 = backBatteryY +  4;
-//    backHolderY2 = backBatteryY + 22;
-//    backHolderX  = backBatteryX + backBatteryW;
-//    backHolderZ  = backBatteryH + basePlaneThickness;
-//    
-//    // Left holders
-//    leftHolderX  = backBatteryX + 23;
-//    leftHolderX2 = backBatteryX +  9;
-//    leftHolderY  = backBatteryY;
-//    leftHolderZ  = backHolderZ;
-//    
-//    // Right holders
-//    rightHolderX  = backBatteryX + 19;
-//    rightHolderX2 = backBatteryX +  5;
-//    rightHolderY  = backBatteryY + backBatteryL;
-//    rightHolderZ  = backHolderZ;
-//    
-//    // Draw back wall
-//    translate([backBatteryX, backBatteryY, backBatteryZ])
-//    cube([backBatteryW, backBatteryL, backBatteryH]);
-//
-//    // Draw front wall
-//    translate([frontBatteryX, frontBatteryY, frontBatteryZ])
-//    cube([frontBatteryW, frontBatteryL, frontBatteryH]);
-//    
-//    // Draw back holders
-//    translate([backHolderX, backHolderY1, backHolderZ]) holder3d();
-//    translate([backHolderX, backHolderY2, backHolderZ]) holder3d();
-//
-//    // Draw left holders
-//    translate([leftHolderX,  leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
-//    translate([leftHolderX2, leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
-//    
-//    // Draw right holders
-//    translate([rightHolderX, rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
-//    translate([rightHolderX2,rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
-//}
-
-
 module batteryCover() {
     
     // Back wall
@@ -272,21 +214,8 @@ module batteryCover() {
             rotate([0,0,22])
             square(9);
 
-    }
-}
-        
-    
-//    // Draw back holders
-//    translate([backHolderX, backHolderY1, backHolderZ]) holder3d();
-//    translate([backHolderX, backHolderY2, backHolderZ]) holder3d();
-//
-//    // Draw left holders
-//    translate([leftHolderX,  leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
-//    translate([leftHolderX2, leftHolderY,  leftHolderZ])  rotate([0, 0, 90]) holder3d();
-//    
-//    // Draw right holders
-//    translate([rightHolderX, rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
-//    translate([rightHolderX2,rightHolderY, rightHolderZ]) rotate([0, 0, -90]) holder3d();
+        }
+    }       
 }
 
 
@@ -334,8 +263,6 @@ lightTubes =
 
 cutoutsLid =
 [
-//    [46.00, 0.10, 0.00, 0.00,     1.5, yappCircle,      yappCoordPCB, yappOrigin ], // LED bottom
-//    [55.50,25.40, 6.00, 2.00,     0.5, yappRoundedRect, yappCoordPCB, yappOrigin ], // LED top
     [14.50, 8.50,24.50,14.70+1.0, 0.5, yappRectangle,   yappCoordPCB, yappOrigin ], // Display
     
     
@@ -364,4 +291,3 @@ difference() {
     printVersion();
 }
 antennaHolder();
-//printVersion();
